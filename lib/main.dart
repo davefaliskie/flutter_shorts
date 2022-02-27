@@ -34,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _message = "Click Subscribe";
   Logger logger = Logger();
   TextEditingController _nameController = TextEditingController();
+  bool _btnActive = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.red, Colors.yellow],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            )
-        ),
+          colors: [Colors.red, Colors.yellow],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        )),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -65,26 +65,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     hintText: 'Enter your name',
                   ),
                   controller: _nameController,
+                  onChanged: (value) {
+                    setState(() {
+                      _btnActive = value.length >= 1 ? true : false;
+                    });
+                  },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(_message),
               ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  primary: Colors.white,
-                ),
-                child: Text("Subscribe", style: TextStyle(color: Colors.white)),
-                onPressed: () {
-                  setState(() {
-                    _message = "${_nameController.text} Subscribed!";
-                  });
-                  HapticFeedback.heavyImpact();
-                  logger.d("Subscribed");
-                },
-              ),
+              ElevatedButton(
+                  child:
+                      Text("Subscribe", style: TextStyle(color: Colors.white)),
+                  onPressed: _btnActive == true ? _subscribe : null),
               Spacer()
             ],
           ),
@@ -93,10 +88,17 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void _subscribe() {
+    setState(() {
+      _message = "${_nameController.text} Subscribed!";
+    });
+    HapticFeedback.heavyImpact();
+    logger.d("Subscribed");
+  }
 
   Widget repeatText({text, count}) {
     List<Widget> children = [];
-    for(int i = 1; i <= count; i++) {
+    for (int i = 1; i <= count; i++) {
       children.add(Text(text));
     }
     return Column(
