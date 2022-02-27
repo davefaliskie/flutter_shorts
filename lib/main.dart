@@ -38,50 +38,53 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        elevation: 0,
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [Colors.red, Colors.yellow],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        )),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter your name',
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          elevation: 0,
+        ),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [Colors.red, Colors.yellow],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          )),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Enter your name',
+                    ),
+                    controller: _nameController,
+                    onChanged: (value) {
+                      setState(() {
+                        _btnActive = value.length >= 1 ? true : false;
+                      });
+                    },
                   ),
-                  controller: _nameController,
-                  onChanged: (value) {
-                    setState(() {
-                      _btnActive = value.length >= 1 ? true : false;
-                    });
-                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(_message),
-              ),
-              ElevatedButton(
-                  child:
-                      Text("Subscribe", style: TextStyle(color: Colors.white)),
-                  onPressed: _btnActive == true ? _subscribe : null),
-              Spacer()
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(_message),
+                ),
+                ElevatedButton(
+                    child:
+                        Text("Subscribe", style: TextStyle(color: Colors.white)),
+                    onPressed: _btnActive == true ? _subscribe : null),
+                Spacer()
+              ],
+            ),
           ),
         ),
       ),
