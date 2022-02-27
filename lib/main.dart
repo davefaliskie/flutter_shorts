@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
@@ -35,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _message = "Click Subscribe";
   Logger logger = Logger();
+  TextEditingController _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +59,16 @@ class _MyHomePageState extends State<MyHomePage> {
               Spacer(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter your name',
+                  ),
+                  controller: _nameController,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(_message),
               ),
               TextButton(
@@ -70,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text("Subscribe", style: TextStyle(color: Colors.white)),
                 onPressed: () {
                   setState(() {
-                    _message = "Subscribed!";
+                    _message = "${_nameController.text} Subscribed!";
                   });
                   HapticFeedback.heavyImpact();
                   logger.d("Subscribed");
