@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         _btnActive = value.length >= 1 ? true : false;
                       });
                     },
-                    maxLines: null,
+                    textInputAction: TextInputAction.done,
                   ),
                 ),
                 Padding(
